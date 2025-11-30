@@ -3,7 +3,6 @@
 #include <QSlider>
 #include <QWidget>
 
-#include <memory>
 #include <vector>
 
 class SliderWidget;

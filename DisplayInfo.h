@@ -10,29 +10,33 @@ extern "C" {
 #include <ddcutil_types.h>
 }
 
-class DDCUtil;
-
 class DisplayInfo: public QObject
 {
     Q_OBJECT
 public:
-    DisplayInfo(const QString &name, uint16_t current, uint16_t max, DDCA_Display_Ref ref);
+    struct InfoStruct
+    {
+        const QString name, mfg, sn;
+        const uint16_t max;
+        mutable uint16_t current;
+    };
 
-    const QString &name() const { return m_name; }
-    const uint16_t maxBrightness() const { return m_max; }
-    uint16_t currentBrightness() const { return m_current; }
+    DisplayInfo(const InfoStruct &info, DDCA_Display_Ref ref);
+
+    const InfoStruct &info() const { return m_info; }
     void updateBrightness(uint16_t value) const;
 
     static const std::list<DisplayInfo> &displayInfoList();
+    static void updateCache();
 
 private slots:
     void delayTimeout();
 
 private:
-    const QString m_name;
-    const uint16_t m_max;
-    mutable uint16_t m_current;
-    const DDCA_Display_Ref m_ref;
+    static void syncDisplayInfoList();
+
+    InfoStruct m_info;
+    DDCA_Display_Ref m_ref;
     QTimer *m_delay_timer;
 
     static std::list<DisplayInfo> s_info_list;

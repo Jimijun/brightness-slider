@@ -17,23 +17,25 @@ public:
     QSlider *m_slider;
 };
 
-SliderWidget::SliderWidget(const DisplayInfo *info, QWidget *parent)
-    : m_display_info(info)
+SliderWidget::SliderWidget(const DisplayInfo *display_info, QWidget *parent)
+    : m_display_info(display_info)
     , QWidget(parent)
 {
+    const DisplayInfo::InfoStruct &info = m_display_info->info();
+
     QHBoxLayout *layout = new QHBoxLayout(this);
-    m_name = new QLabel(info->name(), this);
+    m_name = new QLabel(info.name, this);
     m_name->setMinimumWidth(100);
     layout->addWidget(m_name);
     m_slider = new QSlider(Qt::Horizontal, this);
     m_slider->setFixedWidth(100);
     layout->addWidget(m_slider);
-    m_value = new QLabel(QString::number(info->currentBrightness()), this);
+    m_value = new QLabel(QString::number(info.current), this);
     layout->addWidget(m_value);
 
     m_slider->setMinimum(0);
-    m_slider->setMaximum(info->maxBrightness());
-    m_slider->setValue(info->currentBrightness());
+    m_slider->setMaximum(info.max);
+    m_slider->setValue(info.current);
     m_slider->setSingleStep(5);
     m_slider->setPageStep(5);
     m_slider->setTracking(false);
@@ -65,14 +67,14 @@ MainWindow::MainWindow(QWidget *parent): QWidget(parent)
         SliderWidget *slider = m_sliders.back();
         layout->addWidget(slider);
     }
-
-    installEventFilter(this);
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::RightButton)
+    if (event->button() == Qt::RightButton) {
+        DisplayInfo::updateCache();
         close();
+    }
 }
 
 #include "MainWindow.moc"

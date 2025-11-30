@@ -11,12 +11,14 @@ pkg_check_modules(DDCUtil REQUIRED ddcutil)
 set(CMAKE_AUTOMOC ON)
 
 set(HEADERS
+    CacheHandler.h
     DisplayInfo.h
     MainWindow.h
 )
 
 set(SOURCES
     main.cpp
+    CacheHandler.cpp
     DisplayInfo.cpp
     MainWindow.cpp
 )
