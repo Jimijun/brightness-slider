@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QBoxLayout>
 #include <QSlider>
 #include <QWidget>
 
@@ -17,6 +18,10 @@ public:
 protected:
     virtual void mousePressEvent(QMouseEvent *event);
 
+private slots:
+    void refresh(bool force_update = false);
+
 private:
+    QVBoxLayout *m_layout;
     std::vector<SliderWidget *> m_sliders;
 };

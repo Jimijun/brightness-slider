@@ -55,8 +55,13 @@ DisplayInfo::DisplayInfo(const InfoStruct &info, DDCA_Display_Ref ref)
     connect(m_delay_timer, &QTimer::timeout, this, &DisplayInfo::delayTimeout);
 }
 
-const std::list<DisplayInfo> &DisplayInfo::displayInfoList()
+const std::list<DisplayInfo> &DisplayInfo::displayInfoList(bool force_update)
 {
+    if (force_update) {
+        syncDisplayInfoList();
+        return s_display_list;
+    }
+
     if (!s_display_list.empty())
         return s_display_list;
 

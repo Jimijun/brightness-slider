@@ -31,7 +31,7 @@ public:
     const InfoStruct &info() const { return m_info; }
     void updateBrightness(uint16_t value) const;
 
-    static const std::list<DisplayInfo> &displayInfoList();
+    static const std::list<DisplayInfo> &displayInfoList(bool force_update = false);
     static void updateCache();
 
 private slots:
