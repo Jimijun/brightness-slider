@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "DisplayInfo.h"
 
+#include <QApplication>
 #include <QBoxLayout>
 #include <QMouseEvent>
 #include <QLabel>
@@ -73,7 +74,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::RightButton) {
         DisplayInfo::updateCache();
-        close();
+        QApplication::exit(0);
     }
 }
 
